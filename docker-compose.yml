@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    web:
+        build: 
+            context: . # Specifies the context (look into the current dir)
+            dockerfile: Dockerfile.dev
+        ports: ["3000:3000"]
+        volumes:
+            - /app/node_modules
+            - .:/app
+    
+    tests:
+        build:
+            context: . # Context of current directory
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /app/node_modules # Tells Docker to not override the node_module
+                                # directory inside the container, since we
+                                # no longer have one locally to reference.
+            - .:/app
+        command: ["npm", "run", "test"]
+
