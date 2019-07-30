@@ -1,0 +1,13 @@
+language: generic
+sudo: required # Super user level permissions required
+services:
+    - docker
+
+before_install: # Series of steps that get executed before our tests are run.
+                # or project is deployed
+    - docker build -t jalexanderbryant/docker-react -f Dockerfile.dev .
+
+script: # Commands that need to be executed to run the test suite
+        # Travis watches output of each command. ON anything other than 0,
+        # will assume the test suite failed.
+    - docker run -e CI=true jalexanderbryant/docker-react npm run test
