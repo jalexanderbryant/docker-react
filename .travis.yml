@@ -11,3 +11,17 @@ script: # Commands that need to be executed to run the test suite
         # Travis watches output of each command. ON anything other than 0,
         # will assume the test suite failed.
     - docker run -e CI=true jalexanderbryant/docker-react npm run test
+
+deploy: # Commands to deploy the application
+    provider: elasticbeanstalk # travis is setup to handle EB directly
+    region: "us-east-1"
+    app: "docker-react"
+    env: "DockerReact-env"
+    bucket_name: "elasticbeanstalk-us-east-1-052464226224"
+    bucket_path: "docker-react"
+    on: # ONly deploy when master branch is updated
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: "$AWS_SECRET_KEY"
+
